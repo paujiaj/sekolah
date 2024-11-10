@@ -1,0 +1,16 @@
+$map = [
+                "fis" => "fisika",
+                "eko" => "ekonomi",
+                "kim" => "kimia",
+                "engTL" => "english TL",
+                "matTL" => "matematika TL",
+                "bio" => "biologi",
+                "jep" => "jepang",
+                "sos" => "sosiologi",
+                "inf" => "informatika",
+                "kor" => "korea",
+                "geo" => "geografi",
+                "man" => "mandarin",
+                "lit" => "literasi",
+                "jer" => "jerman",
+            ];
