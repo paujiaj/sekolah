@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+</head>
+
+<?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: ../login/login.php');
+    exit;
+}
+
+include "../includes/ess/conn.php";
+
+if (isset($_GET['id']) && (isset($_GET['username'])) && (isset($_GET['kelas'])) && (isset($_GET['fullname']))) {
+    $id = intval($_GET['id']);
+    $username = $_GET['username'];
+    $kelasNoDash = $_GET['kelas'];
+    $kelasgroup = "kelas__" . $_GET['kelas'];
+    $fullname = $_GET['fullname'];
+
+    $_SESSION['loggedin'] = true;
+    $_SESSION['user_id'] = $id;
+    $_SESSION['username'] = $username_server;
+    $_SESSION['kelas'] = $kelas;
+    $_SESSION['fullname'] = $fullname_server;
+
+    $sql = $conn->query("CREATE TABLE IF NOT EXISTS `$kelasgroup` (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        fullname VARCHAR(255) NOT NULL,
+        username VARCHAR(255) NOT NULL,
+        kelaspmt VARCHAR(255) NOT NULL,
+        mapel VARCHAR(255) NOT NULL,
+        ppImg VARCHAR(255) NOT NULL
+    )");
+
+    $stmt = $conn->prepare("SELECT * FROM `$kelasgroup` WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        // Fetch the existing row
+        $item = $result->fetch_assoc();
+        $kelaspmt = $item['kelaspmt'];
+        header("Location: ../home/home.php?id=$id&username=$username&kelas=$kelasgroup&fullname=$fullname&kelaspmt=$kelaspmt");
+        exit;
+    } else {
+        $stmt_insert = $conn->prepare("INSERT INTO `$kelasgroup` (id, username, fullname) VALUES (?, ?, ?)");
+        $stmt_insert->bind_param("iss", $id, $username, $fullname);
+        $stmt_insert->execute();
+        $stmt_insert->close();
+        $item = $result->fetch_assoc();
+        $kelaspmt = $item['kelaspmt'];
+        header("Location: ../home/home.php?id=$id&username=$username&kelas=$kelasgroup&fullname=$fullname&kelaspmt=$kelaspmt");
+    }
+    $stmt->close();
+}
+?>
+
+<body>
+    <p>If you are not redirected, <a
+            href="../home/home.php?id=<?php echo $id ?>&username=<?php echo $username ?>&kelas=<?php echo $kelasNoDash ?>&fullname=<?php echo $fullname ?>&kelaspmt=<?php echo $kelaspmt ?>">click
+            here</a>.</p>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Figtree", sans-serif;
+    font-style: normal;
+}
+
+.fullPage {
+    background: rgba(0, 0, 0, 0.8);
+    max-height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .app {
+        position: relative;
+        min-height: 550px;
+        max-width: 600px;
+        min-width: 600px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+
+        .title {
+            margin-top: 20px;
+            width: 100%;
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+        }
+
+        .error-msg {
+            color: white;
+            font-size: 12px;
+            background: #ff0f0f;
+            padding: 2px 15px;
+            border-radius: 20px;
+        }
+
+        .form {
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            #loginForm {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+
+                h1 {
+                    color: #fff;
+                    margin-bottom: 20px;
+                }
+
+                label {
+                    color: #fff;
+                }
+
+                .login-btn {
+                    padding: 20px;
+                    margin: 20px;
+                    border-radius: 20px;
+                    border: none;
+                    background-color: #643579;
+                    font-size: 20px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                    transition: 0.2s;
+                    color: #fff;
+                }
+
+                .login-btn:hover {
+                    background-color: #BB99CD;
+                    transition: 0.2s;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .footer {
+            display: flex;
+            flex-direction: row;
+
+            p {
+                color: #BBBFCA;
+            }
+
+            a {
+                color: #FFF;
+                text-decoration: none;
+                transition: 0.2s;
+            }
+
+            a:hover {
+                color: #BB99CD;
+                transition: 0.2s;
+            }
+        }
+    }
+}
