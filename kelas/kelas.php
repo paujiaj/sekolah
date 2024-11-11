@@ -48,8 +48,7 @@ if (isset($_GET['data'])) {
 
 <body>
     <?php include "../includes/nav.php" ?>
-    <?php if ($angkatan === 'kelas__11'): ?>
-
+    <?php if ($angkatan === 'kelas__11' || $angkatan === 'kelas__12'): ?>
         <div class="mapel-wajib">
             <div class="wajib-header">
                 <p>MAPEL WAJIB</p>
@@ -67,6 +66,16 @@ if (isset($_GET['data'])) {
             <div class="pmt">
                 <?php include 'includes/logic/kelas-logic.php'; ?>
             </div>
+        </div>
+    <?php elseif ($angkatan === 'kelas__10'): ?>
+        <div class="mapel-wajib">
+            <div class="wajib-header">
+                <p>MAPEL WAJIB</p>
+            </div>
+            <div class="wajib">
+                <?php include 'includes/view/mapelWajib.php'; ?>
+            </div>
+            <hr>
         </div>
     <?php endif; ?>
 </body>

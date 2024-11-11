@@ -6,9 +6,7 @@
 }
 
 .fullPage {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/bg.jpg);
-    background-size: cover;
-    background-position: center;
+    background: rgba(0, 0, 0, 0.8);
     max-height: 100vh;
     min-height: 100vh;
     display: flex;
@@ -36,7 +34,7 @@
             font-size: 40px;
             font-weight: bold;
             text-align: center;
-            color: #BBBFCA;
+            color: #fff;
         }
 
         .error-msg {
@@ -60,64 +58,13 @@
                 flex-direction: column;
                 width: 100%;
 
+                h1 {
+                    color: #fff;
+                    margin-bottom: 20px;
+                }
+
                 label {
-                    margin: 0 20px;
-                    font-size: 20px;
-                    color: #BBBFCA;
-                }
-
-                .input {
-                    margin: 20px;
-                    padding: 20px;
-                    border-radius: 20px;
-                    background: transparent;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                    border: none;
-                    color: #BBBFCA;
-                    transition: 0.2s;
-                    font-size: 15px;
-                }
-
-                input::placeholder {
-                    color: rgba(255, 255, 255, 0.7);
-                    font-size: 15px;
-                }
-
-                .input:focus {
-                    border: none;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                    background: #64357950;
-                    outline: none;
-                    transition: 0.2s;
-                }
-
-                .formFooter {
-                    padding: 20px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-
-                    .checkBox {
-                        color: #BBBFCA;
-
-                        #rememberMe {
-                            margin: 0;
-                            padding: 0;
-                            margin-right: 10px;
-                        }
-                    }
-
-                    a {
-                        color: #FFF;
-                        text-decoration: none;
-                        transition: 0.2s;
-                    }
-
-                    a:hover {
-                        color: #BB99CD;
-                        transition: 0.2s;
-                    }
+                    color: #fff;
                 }
 
                 .login-btn {

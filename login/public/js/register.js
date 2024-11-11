@@ -1,5 +1,7 @@
-document.getElementById('login-form').onsubmit = function (event) {
+document.getElementById('loginForm').onsubmit = function (event) {
     event.preventDefault(); // Prevent default form submission
+    const rememberMe = document.getElementById("rememberMe");
+    const isChecked = rememberMe.checked ? "true" : "false";
     const formData = new FormData(event.target);
     fetch('includes/logic/register-logic.php', {
         method: 'POST',
@@ -8,11 +10,13 @@ document.getElementById('login-form').onsubmit = function (event) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                localStorage.setItem('loggedin', true);
-                localStorage.setItem('user_id', data.id);
-                localStorage.setItem('username', data.username);
-                localStorage.setItem('kelas', data.kelas);
-                localStorage.setItem('fullname', data.fullname);
+                if (isChecked == "true") {
+                    localStorage.setItem('loggedin', true);
+                    localStorage.setItem('user_id', data.id);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('kelas', data.kelas);
+                    localStorage.setItem('fullname', data.fullname);
+                }
 
                 window.location.href = 'redirect.php?data=' + data.url;
             } else {

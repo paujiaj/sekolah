@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fullname = $_POST['fullname'];
     $kelas = $_POST['kelas'];
     $id = $_POST['id'];
-    
+
     function encryptData($data, $key)
     {
         $cipher = "AES-256-CBC";
@@ -27,16 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $encryptedQuery = encryptData($queryString, $secretkey);
     $encryptedUrl = urlencode($encryptedQuery);
 
-    echo json_encode([
-        'username' => $username,
-        'fullname' => $fullname,
-        'kelas' => $kelas,
-        'id' => $id,
+    $send = [
         'success' => true,
         'url' => $encryptedUrl,
-        'loggedin' => $_SESSION['loggedin']
-    ]);
+    ];
+    echo json_encode($send);
+} else {
+    $send = ['success' => false, 'message' => "invalid server method"];
+    echo json_encode($send);
 }
 exit;
-
-?>

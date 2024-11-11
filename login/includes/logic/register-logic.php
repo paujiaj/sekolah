@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $secretkey = bin2hex(openssl_random_pseudo_bytes(16));
                     $_SESSION['secretkey'] = $secretkey;
 
-                    $queryString = "id=$id&username=$username&kelas=$kelas&fullname=$fullname_server";
+                    $queryString = "id=$id&username=$username&kelas=$kelasNoDash&fullname=$fullname_server";
                     $encryptedQuery = encryptData($queryString, $secretkey);
                     $encryptedUrl = urlencode($encryptedQuery);
 

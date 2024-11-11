@@ -21,6 +21,7 @@ if (isset($_GET['data'])) {
         $kelaspmt = $item['kelaspmt'];
         $kelas = str_replace('kelas__', '', $kelasNoDash);
         $angkatan = substr($kelas, 0, -1);
+        $angkatanKelas = 'kelas__' . $angkatan;
 
         preg_match_all('/(\d[A-Z])/', $kelaspmt, $matches);
 
@@ -86,14 +87,14 @@ if (isset($_GET['data'])) {
 
             echo '
         <div class="single-box ' . $class . '">
-            <a href="subkelas/subkelas.php?subkelas=' . $subjectId . '&data=' . $encryptedUrl . '">
+            <a href="subkelas/subkelas.php?subkelas=' . $angkatanKelas . $subjectId . '&data=' . $encryptedUrl . '">
                 <div class="image-box ' . $class . '">
                     <img class="mapelImg" src="public/img/' . strtolower($subject) . '.png" alt="">
                     <!--<img src="public/img/PAI.png" alt="">-->
                 </div>
             </a>
             <div class="mapel">
-                <a href="subkelas/subkelas.php?subkelas=' . $subjectId . '&data=' . $encryptedUrl . '">' . $subject . '</a>
+                <a href="subkelas/subkelas.php?subkelas=' . $angkatanKelas . $subjectId . '&data=' . $encryptedUrl . '">' . $subject . '</a>
             </div>
             <div class="pppic">
                 <img src="' . $ppguru . '" alt="">

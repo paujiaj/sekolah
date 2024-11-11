@@ -1,10 +1,12 @@
-document.getElementById('login-form').onsubmit = function (event) {
+document.getElementById('loginForm').onsubmit = function (event) {
     event.preventDefault(); // Prevent default form submission
+    const rememberMe = document.getElementById("rememberMe");
+    const isChecked = rememberMe.checked ? "true" : "false";
     const formData = new FormData(event.target);
-    formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-    });
-    alert('1')
+    //formData.forEach((value, key) => {
+    //    console.log(`${key}: ${value}`);
+    //});
+    //alert('1')
     fetch('includes/logic/login-logic.php', {
         method: 'POST',
         body: formData
@@ -17,20 +19,17 @@ document.getElementById('login-form').onsubmit = function (event) {
         })
         .then(data => {
             if (data.success) {
-                localStorage.setItem('loggedin', true);
-                localStorage.setItem('user_id', data.id);
-                localStorage.setItem('username', data.username);
-                localStorage.setItem('kelas', data.kelas);
-                localStorage.setItem('fullname', data.fullname);
+                if (isChecked == "true") {
+                    localStorage.setItem('loggedin', true);
+                    localStorage.setItem('user_id', data.id);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('kelas', data.kelas);
+                    localStorage.setItem('fullname', data.fullname);
+                }
 
                 window.location.href = 'redirect.php?data=' + data.url;
-            } else if (!data) {
-                callErrorMsg('data empty', 3000)
-            } else if (data.success == false) {
-                callErrorMsg('data = false', 3000)
-            } else if (!data.success) {
-                callErrorMsg('data success empty', 3000)
-                console.log(data);
+            } else {
+                callErrorMsg(data.message, 3000)
             }
         })
         .catch(error => {
@@ -63,11 +62,17 @@ window.addEventListener('load', function () {
         formData.append('kelas', kelas);
         formData.append('fullname', fullname);
 
+        //alert('1')  
+
+        formData.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        });
+
         fetch('includes/logic/local-login.php', {
             method: 'POST',
             body: formData
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     window.location.href = 'redirect.php?data=' + data.url;

@@ -82,6 +82,8 @@ if (isset($_GET['data'])) {
         $encryptedQuery = encryptData($queryString, $secretkey);
         $encryptedUrl = urlencode($encryptedQuery);
 
+        sleep(3);
+
         header("Location: ../home/home.php?data=$encryptedUrl");
     }
     $stmt->close();

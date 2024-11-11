@@ -20,43 +20,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('ss', $username, $username);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($id, $hashed_password, $username_server, $kelas, $fullname_server);
-        $stmt->fetch();
 
-        if (password_verify($password, $hashed_password)) {
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($id, $hashed_password, $username_server, $kelas, $fullname_server);
+            $stmt->fetch();
 
-            function encryptData($data, $key)
-            {
-                $cipher = "AES-256-CBC";
-                $ivLength = openssl_cipher_iv_length($cipher);
-                $iv = openssl_random_pseudo_bytes($ivLength);
+            if ($hashed_password !== null) {
+                if (password_verify($password, $hashed_password)) {
 
-                $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
-                return base64_encode($iv . $encrypted);
+                    function encryptData($data, $key)
+                    {
+                        $cipher = "AES-256-CBC";
+                        $ivLength = openssl_cipher_iv_length($cipher);
+                        $iv = openssl_random_pseudo_bytes($ivLength);
+
+                        $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
+                        return base64_encode($iv . $encrypted);
+                    }
+
+                    $secretkey = bin2hex(openssl_random_pseudo_bytes(16));
+                    $_SESSION['secretkey'] = $secretkey;
+
+                    $queryString = "id=$id&username=$username_server&kelas=$kelas&fullname=$fullname_server";
+                    $encryptedQuery = encryptData($queryString, $secretkey);
+                    $encryptedUrl = urlencode($encryptedQuery);
+
+                    // Password is correct, set session variables
+                    $_SESSION['loggedin'] = true;
+                    $send = [
+                        'success' => true,
+                        'id' => $id,
+                        'username' => $username_server,
+                        'kelas' => $kelas,
+                        'url' => $encryptedUrl,
+                        'fullname' => $fullname_server
+                    ];
+                    echo json_encode($send);
+                    exit;
+                } else {
+                    $send = ['success' => false, 'message' => 'Invalid username or password'];
+                    echo json_encode($send);
+                    exit;
+                }
+            } else {
+                $send = ['success' => false, 'message' => "You don't have an account"];
+                echo json_encode($send);
+                exit;
             }
-
-            $secretkey = bin2hex(openssl_random_pseudo_bytes(16));
-            $_SESSION['secretkey'] = $secretkey;
-
-            $queryString = "id=$id&username=$username_server&kelas=$kelas&fullname=$fullname_server";
-            $encryptedQuery = encryptData($queryString, $secretkey);
-            $encryptedUrl = urlencode($encryptedQuery);
-
-            // Password is correct, set session variables
-            $_SESSION['loggedin'] = true;
-            $send = [
-                'success' => true,
-                'id' => $id,
-                'username' => $username_server,
-                'kelas' => $kelas,
-                'url' => $encryptedUrl,
-                'fullname' => $fullname_server
-            ];
+        } else {
+            $send = ['success' => false, 'message' => "Invalid username"];
             echo json_encode($send);
             exit;
-        } else {
-            $send = ['success' => false, 'message' => 'Invalid username or password'];
-            echo json_encode($send);
         }
 
         $stmt->close();
